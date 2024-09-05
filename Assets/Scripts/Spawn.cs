@@ -1,19 +1,19 @@
 using UnityEngine;
 
-public class Spawn : MonoBehaviour
+public class Spawner : MonoBehaviour
 {
-    [SerializeField, Range(2f, 10f)] int multiplicationValue;
+    [SerializeField, Range(2f, 10f)] int multiplicationValueExplodie;
 
     private int _decriseValue = 2;
-    
+
     public void Create(Cube prefab)
     {
         int minValueCreateRandom = 2;
-        int maxValueCreateRandom = 7;
+        int maxValueCreateRandom = 6;
         int countCreating;
 
         System.Random random = new System.Random();
-        countCreating = random.Next(minValueCreateRandom, maxValueCreateRandom);
+        countCreating = random.Next(minValueCreateRandom, maxValueCreateRandom + 1);
 
         for (int i = 0; i < countCreating; i++)
         {
@@ -24,10 +24,10 @@ public class Spawn : MonoBehaviour
             var chanceDivide = newCube.ChanceDivision / _decriseValue;
             var scale = transform.localScale / _decriseValue;
 
-            float force = newCube.ExplosionForce * multiplicationValue;
-            float radius = newCube.ExplosionRadius * multiplicationValue;
+            float force = newCube.ExplosionForce * multiplicationValueExplodie;
+            float radius = newCube.ExplosionRadius * multiplicationValueExplodie;
 
-            newCube.Initialisation(color, chanceDivide, scale, force, radius);
+            newCube.Init(color, chanceDivide, scale, force, radius);
         }
     }
 }
