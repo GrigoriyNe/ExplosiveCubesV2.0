@@ -1,11 +1,13 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Spawner))]
+[RequireComponent(typeof(Exploder))]
+
 public class Cube : MonoBehaviour
 {
     [SerializeField] private MeshRenderer _meshRenderer;
-    [SerializeField] Cube _prefab;
 
-    private Spawn _spawn;
+    private Spawner _spawner;
     private Exploder _exploder;
     private float _explosionForce = 100;
     private float _explosionRadius = 20;
@@ -15,30 +17,30 @@ public class Cube : MonoBehaviour
     public float ExplosionForce => _explosionForce;
     public float ExplosionRadius => _explosionRadius;
 
-    public void Initialisation(Color color, int chanceDivide, Vector3 scale, float force, float radius)
-    {
-        _meshRenderer.material.color = color;
-        _chanceDivision = chanceDivide;
-        transform.localScale = scale;
-        _explosionForce = force;
-        _explosionRadius = radius;
-    }
-
     private void Awake()
     {
-        _spawn = GetComponent<Spawn>();
+        _spawner = GetComponent<Spawner>();
         _exploder = GetComponent<Exploder>();
     }
 
     private void OnMouseDown()
     {
         if (CanDivide())
-            _spawn.Create(_prefab);
+            _spawner.Create(this);
 
         else
-            _exploder.Explode(_prefab);
+            _exploder.Explode(this);
 
         Destroy(gameObject);
+    }
+
+    public void Init(Color color, int chanceDivide, Vector3 scale, float force, float radius)
+    {
+        _meshRenderer.material.color = color;
+        _chanceDivision = chanceDivide;
+        transform.localScale = scale;
+        _explosionForce = force;
+        _explosionRadius = radius;
     }
 
     private bool CanDivide()
