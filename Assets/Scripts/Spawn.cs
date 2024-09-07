@@ -2,8 +2,6 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField, Range(2f, 10f)] int multiplicationValueExplodie;
-
     private int _decriseValue = 2;
 
     public void Create(Cube prefab)
@@ -21,13 +19,10 @@ public class Spawner : MonoBehaviour
             Cube newCube = Instantiate(prefab, position, Quaternion.identity);
 
             var color = Random.ColorHSV();
-            var chanceDivide = newCube.ChanceDivision / _decriseValue;
             var scale = transform.localScale / _decriseValue;
+            var chanceDivide = newCube.ChanceDivision / _decriseValue;
 
-            float force = newCube.ExplosionForce * multiplicationValueExplodie;
-            float radius = newCube.ExplosionRadius * multiplicationValueExplodie;
-
-            newCube.Init(color, chanceDivide, scale, force, radius);
+            newCube.Init(color, chanceDivide, scale);
         }
     }
 }
