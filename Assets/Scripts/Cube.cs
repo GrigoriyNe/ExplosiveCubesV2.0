@@ -9,7 +9,7 @@ public class Cube : MonoBehaviour
 
     private Spawner _spawner;
     private Exploder _exploder;
-    private float _explosionForce = 100;
+    private float _explosionForce = 20;
     private float _explosionRadius = 20;
     private int _chanceDivision = 100;
 
@@ -17,10 +17,9 @@ public class Cube : MonoBehaviour
     public float ExplosionForce => _explosionForce;
     public float ExplosionRadius => _explosionRadius;
 
-    private void Awake()
+    private void Start()
     {
-        _spawner = GetComponent<Spawner>();
-        _exploder = GetComponent<Exploder>();
+        Init(Random.ColorHSV(), _chanceDivision, transform.localScale);
     }
 
     private void OnMouseDown()
@@ -34,20 +33,22 @@ public class Cube : MonoBehaviour
         Destroy(gameObject);
     }
 
-    public void Init(Color color, int chanceDivide, Vector3 scale, float force, float radius)
+    public void Init(Color color, int chanceDivide, Vector3 scale)
     {
+        _spawner = GetComponent<Spawner>();
+        _exploder = GetComponent<Exploder>();
+
         _meshRenderer.material.color = color;
         _chanceDivision = chanceDivide;
         transform.localScale = scale;
-        _explosionForce = force;
-        _explosionRadius = radius;
     }
 
     private bool CanDivide()
     {
         System.Random random = new System.Random();
-        int randomValue = random.Next(0, 100);
+        int maxValueRandom = 100;
+        int randomValue = random.Next(0, maxValueRandom);
 
-        return randomValue < _chanceDivision;
+        return randomValue <= _chanceDivision;
     }
 }
